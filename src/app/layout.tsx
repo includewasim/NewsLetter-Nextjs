@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "../shared/styles/globals.css";
+import Provider from "@/shared/utils/Provider";
+import localFont from 'next/font/local'
+import { ClerkProvider } from "@clerk/nextjs";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const clashDisplay = localFont({
+  src: '../assets/fonts/ClashDisplay-Variable.ttf',
+  variable: '--font-clashDisplay', weight: "700",
+})
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,12 +23,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={`${clashDisplay.variable}`}
+        >
+          <Provider>
+            {children}
+          </Provider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
